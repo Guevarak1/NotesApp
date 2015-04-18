@@ -128,7 +128,7 @@ public class NotesDBAdapter {
         return mCursor;
     }
 
-    public void insertSomeCountries() {
+    public void hardCodeNotes() {
 
         createNote("Hard coded note","hard coded note blabla","need to program this");
 
