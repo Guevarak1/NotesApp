@@ -13,8 +13,8 @@ import android.widget.Toast;
 
 public class AddNote extends ActionBarActivity {
 
-    EditText title, content, time;
-    String titleStr, contentStr, timeStr;
+    EditText title, content;
+    String titleStr, contentStr;
     Button addBtn;
     private NotesDBAdapter dbHelper;
 
@@ -29,7 +29,6 @@ public class AddNote extends ActionBarActivity {
 
         title = (EditText) findViewById(R.id.edit_code);
         content = (EditText) findViewById(R.id.edit_name);
-        time = (EditText) findViewById(R.id.edit_continent);
 
         addBtn = (Button) findViewById(R.id.add_country_btn);
         addBtn.setOnClickListener(new View.OnClickListener() {
@@ -37,22 +36,17 @@ public class AddNote extends ActionBarActivity {
             public void onClick(View v) {
                 titleStr = title.getText().toString();
                 contentStr = content.getText().toString();
-                timeStr = time.getText().toString();
 
-                Toast.makeText(getApplicationContext(), titleStr + " " + contentStr + " " + timeStr
-                        , Toast.LENGTH_SHORT).show();
-
-                dbHelper.createNote(titleStr, contentStr, timeStr);
+                Toast.makeText(getApplicationContext(), titleStr + " " + contentStr,
+                        Toast.LENGTH_SHORT).show();
+                dbHelper.createNote(titleStr, contentStr);
 
                 Intent i = new Intent(AddNote.this,MainActivity.class);
                 startActivity(i);
                 dbHelper.close();
             }
         });
-
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -39,6 +39,7 @@
         android:layout_alignBaseline="@+id/textView3"
         android:layout_alignBottom="@+id/textView3"
         android:layout_toRightOf="@+id/textView3"
+        android:ellipsize="end"
         android:text="TextView" />
 
     <TextView
@@ -47,6 +48,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/textView3"
         android:layout_toRightOf="@+id/textView3"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:text="TextView" />
 
     <TextView
@@ -55,6 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/textView2"
         android:layout_alignLeft="@+id/content"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:text="TextView" />
 
 </RelativeLayout>

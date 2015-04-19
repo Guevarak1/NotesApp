@@ -12,6 +12,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class NotesDBAdapter {
 
     public static final String KEY_ROWID = "_id";
@@ -75,15 +79,21 @@ public class NotesDBAdapter {
         }
     }
 
-    public long createNote(String code, String name,
-                              String continent) {
+    public long createNote(String title, String content) {
 
         ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_TITLE, code);
-        initialValues.put(KEY_CONTENT, name);
-        initialValues.put(KEY_TIME, continent);
+        initialValues.put(KEY_TITLE, title);
+        initialValues.put(KEY_CONTENT, content);
+        initialValues.put(KEY_TIME, formatTime());
 
         return mDb.insert(SQLITE_TABLE, null, initialValues);
+    }
+
+    public String formatTime(){
+
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 
     public boolean deleteAllNotes() {
@@ -130,7 +140,7 @@ public class NotesDBAdapter {
 
     public void hardCodeNotes() {
 
-        createNote("Hard coded note","hard coded note blabla","need to program this");
+        createNote("Hard coded note","hard coded note blabla");
 
     }
 

@@ -53,9 +53,10 @@ public class MainActivity extends ActionBarActivity {
     private void displayListView() {
 
         Cursor cursor = dbHelper.fetchAllNotes();
+
         String[] columns = new String[]{
                 NotesDBAdapter.KEY_TITLE,
-                NotesDBAdapter.KEY_CONTENT,
+                NotesDBAdapter.KEY_CONTENT,//contentPreview(NotesDBAdapter.KEY_CONTENT)
                 NotesDBAdapter.KEY_TIME
         };
 
@@ -106,8 +107,12 @@ public class MainActivity extends ActionBarActivity {
                 return dbHelper.fetchNotesByName(constraint.toString());
             }
         });
-
     }
+
+    public String contentPreview(String content){
+        return content.substring(0,7) + "...";
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
