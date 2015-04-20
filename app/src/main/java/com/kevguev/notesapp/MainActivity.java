@@ -32,10 +32,19 @@ public class MainActivity extends ActionBarActivity {
         dbHelper = new NotesDBAdapter(this);
         dbHelper.open();
 
-        //dbHelper.deleteAllCountries();
-        dbHelper.hardCodeNotes();
+        //dbHelper.deleteAllNotes();
+        //dbHelper.hardCodeNotes();
         displayListView();
         addNoteToList();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        dbHelper = new NotesDBAdapter(this);
+        dbHelper.open();
+        displayListView();
     }
 
     private void addNoteToList(){
@@ -56,7 +65,7 @@ public class MainActivity extends ActionBarActivity {
 
         String[] columns = new String[]{
                 NotesDBAdapter.KEY_TITLE,
-                NotesDBAdapter.KEY_CONTENT,//contentPreview(NotesDBAdapter.KEY_CONTENT)
+                NotesDBAdapter.KEY_CONTENT,
                 NotesDBAdapter.KEY_TIME
         };
 
@@ -80,11 +89,25 @@ public class MainActivity extends ActionBarActivity {
                 // Get the cursor, positioned to the corresponding row in the result set
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
 
-                // Get the state's capital from this row in the database.
-                String countryCode =
-                        cursor.getString(cursor.getColumnIndexOrThrow("title"));
+                // bundle the strings from here to the display note activity with cursors!!
+                String titleCode = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+                String contentCode = cursor.getString(cursor.getColumnIndexOrThrow("content"));
+                String timeCode = cursor.getString(cursor.getColumnIndexOrThrow("time"));
+
+                //bundle key value pairs
+                Bundle bundle = new Bundle();
+                bundle.putLong("Title ID", position);
+                bundle.putString("Title Code", titleCode);
+                bundle.putString("Content Code", contentCode);
+                bundle.putString("Time Code", timeCode);
+
+                //put them in the intent and start activity DisplayNote
+                Intent i = new Intent(MainActivity.this, DisplayNote.class);
+                i.putExtras(bundle);
+                startActivity(i);
+
                 Toast.makeText(getApplicationContext(),
-                        countryCode, Toast.LENGTH_SHORT).show();
+                        titleCode, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -107,10 +130,6 @@ public class MainActivity extends ActionBarActivity {
                 return dbHelper.fetchNotesByName(constraint.toString());
             }
         });
-    }
-
-    public String contentPreview(String content){
-        return content.substring(0,7) + "...";
     }
 
     @Override

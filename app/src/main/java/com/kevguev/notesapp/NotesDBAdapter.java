@@ -11,6 +11,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -46,7 +47,6 @@ public class NotesDBAdapter {
         DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
-
 
         @Override
         public void onCreate(SQLiteDatabase db) {
@@ -87,6 +87,14 @@ public class NotesDBAdapter {
         initialValues.put(KEY_TIME, formatTime());
 
         return mDb.insert(SQLITE_TABLE, null, initialValues);
+    }
+
+    public void deleteNote(long row, String title){
+        //keep as comment in case we need ROWID param
+        //doneDelete = mDb.delete(SQLITE_TABLE, KEY_ROWID + " = " + row + " and " + KEY_TITLE + " = ?", new String[] {name});
+        mDb.execSQL("DELETE FROM "+SQLITE_TABLE+" WHERE "+KEY_TITLE+"='"+title+"'");
+        Toast.makeText(mCtx,"Deleting note: " + title, Toast.LENGTH_SHORT).show();
+        Log.w(TAG, row + " " + title);
     }
 
     public String formatTime(){
@@ -138,10 +146,10 @@ public class NotesDBAdapter {
         return mCursor;
     }
 
-    public void hardCodeNotes() {
+    /*public void hardCodeNotes() {
 
         createNote("Hard coded note","hard coded note blabla");
 
-    }
+    }*/
 
 }
