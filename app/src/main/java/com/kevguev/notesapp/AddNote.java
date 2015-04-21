@@ -28,6 +28,7 @@ public class AddNote extends ActionBarActivity {
         dbHelper.open();
 
         title = (EditText) findViewById(R.id.edit_code);
+        title.requestFocus();
         content = (EditText) findViewById(R.id.edit_name);
 
         addBtn = (Button) findViewById(R.id.add_country_btn);

@@ -48,13 +48,14 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/textView3"
             android:layout_toRightOf="@+id/textView3"
-            />
+            android:paddingBottom="5dp" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:paddingTop="5dp">
 
         <TextView
             android:id="@+id/textView"

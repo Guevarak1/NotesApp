@@ -90,11 +90,11 @@ public class NotesDBAdapter {
     }
 
     public void deleteNote(long row, String title){
-        //keep as comment in case we need ROWID param
-        //doneDelete = mDb.delete(SQLITE_TABLE, KEY_ROWID + " = " + row + " and " + KEY_TITLE + " = ?", new String[] {name});
-        mDb.execSQL("DELETE FROM "+SQLITE_TABLE+" WHERE "+KEY_TITLE+"='"+title+"'");
+
+        String query ="DELETE FROM "+SQLITE_TABLE+" WHERE "+KEY_TITLE+"= ?";
+        mDb.execSQL(query, new String[] {title});
         Toast.makeText(mCtx,"Deleting note: " + title, Toast.LENGTH_SHORT).show();
-        Log.w(TAG, row + " " + title);
+        Log.w(TAG, query + " " + title);
     }
 
     public String formatTime(){

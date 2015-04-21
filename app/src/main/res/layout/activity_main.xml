@@ -1,19 +1,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent" android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
     android:weightSum="1">
 
     <TextView android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:padding="10dp"
-        android:text="Your Notes!" android:textSize="20sp" />
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Your Notes!"
+        android:textSize="20sp" />
 
-    <EditText android:id="@+id/myFilter" android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:ems="10"
+    <EditText android:id="@+id/myFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:hint="filter notes">
-        <requestFocus />
     </EditText>
 
-    <ListView android:id="@+id/listView1" android:layout_width="fill_parent"
+    <ListView android:id="@+id/listView1"
+        android:layout_width="fill_parent"
         android:layout_height="412dp"
         android:layout_weight="1.10" />
 

@@ -113,7 +113,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
         EditText myFilter = (EditText) findViewById(R.id.myFilter);
-
+        myFilter.clearFocus();
         myFilter.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {}
