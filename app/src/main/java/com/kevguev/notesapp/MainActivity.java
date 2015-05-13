@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
-import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -32,13 +31,12 @@ public class MainActivity extends ActionBarActivity {
         displayListView();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
 
-        dbHelper = new NotesDBAdapter(this);
-        dbHelper.open();
-        displayListView();
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        dbHelper.close();
     }
 
     private void displayListView() {
@@ -87,10 +85,6 @@ public class MainActivity extends ActionBarActivity {
                 Intent i = new Intent(MainActivity.this, DisplayNote.class);
                 i.putExtras(bundle);
                 startActivity(i);
-
-                Toast.makeText(getApplicationContext(),
-                        String.valueOf(position), Toast.LENGTH_SHORT).show();
-
             }
         });
 
@@ -135,7 +129,6 @@ public class MainActivity extends ActionBarActivity {
         else if(id == R.id.action_add){
             Intent i = new Intent(MainActivity.this, AddNote.class);
             startActivity(i);
-            dbHelper.close();
             return true;
         }
         else if(id == R.id.action_delete_all){

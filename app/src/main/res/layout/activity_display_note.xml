@@ -35,7 +35,6 @@
                 android:id="@+id/hidden_edit_content"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="add new content"
                 >
             </EditText>
         </ViewSwitcher>

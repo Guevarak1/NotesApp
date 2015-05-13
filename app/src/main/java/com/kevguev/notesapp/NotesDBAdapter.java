@@ -89,13 +89,12 @@ public class NotesDBAdapter {
         return mDb.insert(SQLITE_TABLE, null, initialValues);
     }
 
-    public long updateNote(int id, String title, String content){
+    public void updateNote(int id, String title, String content, String time){
 
-        ContentValues vals = new ContentValues();
-        vals.put(KEY_TITLE, title);
-        vals.put(KEY_CONTENT, content);
-        return mDb.update(SQLITE_TABLE, vals, KEY_ROWID + "=?",new String[] {id+""});
-
+        String query = "REPLACE INTO "+SQLITE_TABLE+" ("+KEY_ROWID+", "+KEY_TITLE+", "+KEY_CONTENT+", "+KEY_TIME+")" +
+                " VALUES ("+id+", '"+title+"','"+content+"','"+time+"');";
+        mDb.execSQL(query);
+        Log.w(TAG, query);
     }
 
     public void deleteNote(long row, String title){
@@ -154,11 +153,4 @@ public class NotesDBAdapter {
         }
         return mCursor;
     }
-
-    /*public void hardCodeNotes() {
-
-        createNote("Hard coded note","hard coded note blabla");
-
-    }*/
-
 }

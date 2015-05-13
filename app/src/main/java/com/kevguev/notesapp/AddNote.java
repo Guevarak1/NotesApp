@@ -1,14 +1,13 @@
 package com.kevguev.notesapp;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 
 public class AddNote extends ActionBarActivity {
@@ -38,8 +37,6 @@ public class AddNote extends ActionBarActivity {
                 titleStr = title.getText().toString();
                 contentStr = content.getText().toString();
 
-                Toast.makeText(getApplicationContext(), titleStr + " " + contentStr,
-                        Toast.LENGTH_SHORT).show();
                 dbHelper.createNote(titleStr, contentStr);
 
                 Intent i = new Intent(AddNote.this,MainActivity.class);

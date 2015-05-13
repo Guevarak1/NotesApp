@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 
@@ -14,9 +14,8 @@ public class DisplayNote extends ActionBarActivity {
 
     private NotesDBAdapter dbHelper;
     private TextView note, time;
-    private String titleStr,noteStr, timeStr;
-    private int position;
-
+    private String titleStr,noteStr, timeStr,position, newContent;
+    private EditText hiddenEditContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +24,7 @@ public class DisplayNote extends ActionBarActivity {
 
         note = (TextView) findViewById(R.id.show_content);
         time = (TextView) findViewById(R.id.show_time);
+        hiddenEditContent= (EditText) findViewById(R.id.hidden_edit_content);
 
         dbHelper = new NotesDBAdapter(this);
         dbHelper.open();
@@ -35,41 +35,35 @@ public class DisplayNote extends ActionBarActivity {
         titleStr = bundle.getString("Title Code");
         noteStr = bundle. getString("Content Code");
         timeStr = bundle.getString("Time Code");
-        position = bundle.getInt("Title ID");
+        position = bundle.getString("Title ID");
+
 
         setTitle(titleStr);
         note.setText(noteStr);
         time.setText(timeStr);
 
-        /*
-        //very surprised this works lol, next step is to put the new strings in the db
-        editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(editBtn.getText().toString().trim().equals("done")){
-                    newTitle = hiddenEditTitle.getText().toString();
-                    newContent = hiddentEditContent.getText().toString();
-                    myTV.setText(newTitle);
-                    myTV2.setText(newContent);
-
-                    dbHelper.updateNote(position, newTitle, newContent);
-                    Toast.makeText(getApplicationContext(), position + newTitle + newContent, Toast.LENGTH_SHORT).show();
-                    dbHelper.close();
-                    editBtn.setText("Edit");
-                }
-
-                else{
-                    editBtn.setText("done");
-                }
-                textViewClicked();
-            }
-        });*/
     }
 
-    public void textViewClicked() {
+    public void edit() {
         ViewSwitcher switcher2 = (ViewSwitcher) findViewById(R.id.my_switcher2);
         switcher2.showNext();
+        hiddenEditContent.setText(noteStr);
+    }
+
+    /**
+     * if not edited it, and back is pressed, then its replaced by nothing
+     */
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        newContent = hiddenEditContent.getText().toString();
+        if(!newContent.equals("")){
+            dbHelper.updateNote(Integer.parseInt(position), titleStr, newContent, timeStr);
+            dbHelper.close();
+            startActivity(new Intent(this,MainActivity.class));
+
+        }
 
     }
 
@@ -84,14 +78,15 @@ public class DisplayNote extends ActionBarActivity {
         int id = item.getItemId();
 
         if(id == R.id.action_delete){
-            dbHelper.deleteNote(position, titleStr);
+
+            dbHelper.deleteNote(Integer.parseInt(position), titleStr);
             dbHelper.close();
             Intent i = new Intent(DisplayNote.this, MainActivity.class);
             startActivity(i);
             return true;
         }
         else if(id == R.id.action_edit){
-            Toast.makeText(getApplicationContext(), position, Toast.LENGTH_LONG).show();
+            edit();
             return true;
         }
 
