@@ -5,28 +5,26 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 
 public class DisplayNote extends ActionBarActivity {
 
     private NotesDBAdapter dbHelper;
-    TextView title, note, time;
-    Button deleteBtn;
-    String titleStr,noteStr, timeStr;
-    Long position;
+    private TextView note, time;
+    private String titleStr,noteStr, timeStr;
+    private int position;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_note);
 
-        title = (TextView) findViewById(R.id.show_title);
         note = (TextView) findViewById(R.id.show_content);
         time = (TextView) findViewById(R.id.show_time);
-        deleteBtn = (Button) findViewById(R.id.delete_note_btn);
 
         dbHelper = new NotesDBAdapter(this);
         dbHelper.open();
@@ -37,41 +35,63 @@ public class DisplayNote extends ActionBarActivity {
         titleStr = bundle.getString("Title Code");
         noteStr = bundle. getString("Content Code");
         timeStr = bundle.getString("Time Code");
-        position = bundle.getLong("Title ID");
+        position = bundle.getInt("Title ID");
 
-        title.setText(titleStr);
+        setTitle(titleStr);
         note.setText(noteStr);
         time.setText(timeStr);
 
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
+        /*
+        //very surprised this works lol, next step is to put the new strings in the db
+        editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), "deleting: " + titleStr, Toast.LENGTH_SHORT).show();
-                dbHelper.deleteNote(position, titleStr);
-                dbHelper.close();
-                Intent i = new Intent(DisplayNote.this, MainActivity.class);
-                startActivity(i);
+
+                if(editBtn.getText().toString().trim().equals("done")){
+                    newTitle = hiddenEditTitle.getText().toString();
+                    newContent = hiddentEditContent.getText().toString();
+                    myTV.setText(newTitle);
+                    myTV2.setText(newContent);
+
+                    dbHelper.updateNote(position, newTitle, newContent);
+                    Toast.makeText(getApplicationContext(), position + newTitle + newContent, Toast.LENGTH_SHORT).show();
+                    dbHelper.close();
+                    editBtn.setText("Edit");
+                }
+
+                else{
+                    editBtn.setText("done");
+                }
+                textViewClicked();
             }
-        });
+        });*/
     }
 
+    public void textViewClicked() {
+        ViewSwitcher switcher2 = (ViewSwitcher) findViewById(R.id.my_switcher2);
+        switcher2.showNext();
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_display_note, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if(id == R.id.action_delete){
+            dbHelper.deleteNote(position, titleStr);
+            dbHelper.close();
+            Intent i = new Intent(DisplayNote.this, MainActivity.class);
+            startActivity(i);
+            return true;
+        }
+        else if(id == R.id.action_edit){
+            Toast.makeText(getApplicationContext(), position, Toast.LENGTH_LONG).show();
             return true;
         }
 

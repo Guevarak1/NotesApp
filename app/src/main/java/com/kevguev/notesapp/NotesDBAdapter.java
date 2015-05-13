@@ -89,6 +89,15 @@ public class NotesDBAdapter {
         return mDb.insert(SQLITE_TABLE, null, initialValues);
     }
 
+    public long updateNote(int id, String title, String content){
+
+        ContentValues vals = new ContentValues();
+        vals.put(KEY_TITLE, title);
+        vals.put(KEY_CONTENT, content);
+        return mDb.update(SQLITE_TABLE, vals, KEY_ROWID + "=?",new String[] {id+""});
+
+    }
+
     public void deleteNote(long row, String title){
 
         String query ="DELETE FROM "+SQLITE_TABLE+" WHERE "+KEY_TITLE+"= ?";

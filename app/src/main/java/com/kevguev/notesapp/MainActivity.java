@@ -2,16 +2,15 @@ package com.kevguev.notesapp;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
@@ -22,7 +21,6 @@ public class MainActivity extends ActionBarActivity {
 
     private NotesDBAdapter dbHelper;
     private SimpleCursorAdapter dataAdapter;
-    private Button addCountryBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +29,7 @@ public class MainActivity extends ActionBarActivity {
 
         dbHelper = new NotesDBAdapter(this);
         dbHelper.open();
-
-        //dbHelper.deleteAllNotes();
-        //dbHelper.hardCodeNotes();
         displayListView();
-        addNoteToList();
     }
 
     @Override
@@ -45,18 +39,6 @@ public class MainActivity extends ActionBarActivity {
         dbHelper = new NotesDBAdapter(this);
         dbHelper.open();
         displayListView();
-    }
-
-    private void addNoteToList(){
-        addCountryBtn = (Button) findViewById(R.id.add_button);
-        addCountryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, AddNote.class);
-                startActivity(i);
-                dbHelper.close();
-            }
-        });
     }
 
     private void displayListView() {
@@ -96,7 +78,7 @@ public class MainActivity extends ActionBarActivity {
 
                 //bundle key value pairs
                 Bundle bundle = new Bundle();
-                bundle.putLong("Title ID", position);
+                bundle.putString("Title ID", String.valueOf(position));
                 bundle.putString("Title Code", titleCode);
                 bundle.putString("Content Code", contentCode);
                 bundle.putString("Time Code", timeCode);
@@ -107,7 +89,7 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(i);
 
                 Toast.makeText(getApplicationContext(),
-                        titleCode, Toast.LENGTH_SHORT).show();
+                        String.valueOf(position), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -148,6 +130,17 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+        else if(id == R.id.action_add){
+            Intent i = new Intent(MainActivity.this, AddNote.class);
+            startActivity(i);
+            dbHelper.close();
+            return true;
+        }
+        else if(id == R.id.action_delete_all){
+            dbHelper.deleteAllNotes();
+            displayListView();
             return true;
         }
 
