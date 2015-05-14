@@ -9,4 +9,5 @@
     <string name="action_delete_all">Delete All</string>
     <string name="action_delete">Delete</string>
     <string name="action_edit">Edit</string>
+    <string name="Share">Share</string>
 </resources>

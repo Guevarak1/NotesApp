@@ -29,13 +29,14 @@
                 android:id="@+id/show_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="10dp" />
+                android:paddingBottom="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
                 android:id="@+id/hidden_edit_content"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                >
+                android:textAppearance="?android:attr/textAppearanceMedium">
             </EditText>
         </ViewSwitcher>
         <!--
